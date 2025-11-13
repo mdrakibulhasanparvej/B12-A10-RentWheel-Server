@@ -101,7 +101,7 @@ async function run() {
       res.send(result);
     });
 
-    //  Get all cars
+    // Created an API for  Get all cars form MongoDB
     app.get("/cars", async (req, res) => {
       const cursor = carCollection.find();
       const result = await cursor.toArray();
