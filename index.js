@@ -108,7 +108,7 @@ async function run() {
       res.send(result);
     });
 
-    //  API route to find user by email
+    // Created an API route to find My Listing car by user email
     app.get("/myCars", async (req, res) => {
       const email = req.query.email; // get ?email=example@gmail.com
       //   console.log(email);
