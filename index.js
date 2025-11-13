@@ -9,9 +9,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json()); // express() to express.json()
 
-//rentwheels
-//rjAqHRfunFn4PuPB
-// MongoDB connection
+
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.dihohmj.mongodb.net/?appName=Cluster0`;
 
