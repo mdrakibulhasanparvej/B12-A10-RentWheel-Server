@@ -67,6 +67,7 @@ async function run() {
       }
     });
 
+    // Created an api for update book status when user book car
     app.patch("/cars_booked", async (req, res) => {
       try {
         const { _id, status } = req.body;
