@@ -123,7 +123,7 @@ async function run() {
       res.send(result);
     });
 
-    // Update car by ID
+    // Update car to the MongoDB by ID
     app.patch("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const updatedCar = req.body;
