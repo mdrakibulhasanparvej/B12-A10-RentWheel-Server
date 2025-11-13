@@ -55,6 +55,8 @@ async function run() {
         res.status(500).send({ error: "Failed to insert car" });
       }
     });
+
+    // Create an api for post booking data to mongodb in new collection.
     app.post("/bookings_updated", async (req, res) => {
       try {
         const data = req.body;
