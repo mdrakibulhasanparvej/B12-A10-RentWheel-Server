@@ -93,7 +93,7 @@ async function run() {
       }
     });
 
-    //  Get all booked cars
+    // Created an api for  Get all booked cars form booking collection 
     app.get("/cars_booked", async (req, res) => {
       const cursor = bookingCollection.find();
       const result = await cursor.toArray();
