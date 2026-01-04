@@ -9,8 +9,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json()); // express() to express.json()
 
-
-
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.dihohmj.mongodb.net/?appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -94,7 +92,7 @@ async function run() {
       }
     });
 
-    // Created an api for  Get all booked cars form booking collection 
+    // Created an api for  Get all booked cars form booking collection
     app.get("/cars_booked", async (req, res) => {
       const cursor = bookingCollection.find();
       const result = await cursor.toArray();
@@ -104,9 +102,39 @@ async function run() {
 
     // Created an API for  Get all cars form MongoDB
     app.get("/cars", async (req, res) => {
-      const cursor = carCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
+      const { limit, skip, search = "", category, sort = "newest" } = req.query;
+
+      const query = {};
+
+      // Search (name + location)
+      if (search) {
+        query.$or = [
+          { name: { $regex: search, $options: "i" } },
+          { location: { $regex: search, $options: "i" } },
+        ];
+      }
+
+      // Category filter
+      if (category && category !== "All") {
+        query.category = category;
+      }
+
+      // Sorting
+      let sortQuery = {};
+      if (sort === "price_low") sortQuery = { rent_per_day: 1 };
+      if (sort === "price_high") sortQuery = { rent_per_day: -1 };
+      if (sort === "newest") sortQuery = { created_at: -1 };
+
+      const cars = await carCollection
+        .find(query)
+        .sort(sortQuery)
+        .skip(Number(skip))
+        .limit(Number(limit))
+        .toArray();
+
+      const totalcars = await carCollection.countDocuments(query);
+
+      res.send({ cars, totalcars });
     });
 
     // Created an API route to find My Listing car by user email
